@@ -1,0 +1,5 @@
+.env
+__pycache__
+
+# put the virtual environtment here
+virtualenv
