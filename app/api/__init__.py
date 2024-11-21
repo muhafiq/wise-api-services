@@ -4,7 +4,7 @@ from marshmallow import ValidationError
 from .error import ResponseError
 
 """Resources"""
-from .resources.auth import RegisterResource, LoginResource, LogoutResource
+from .resources.auth import RegisterResource, LoginResource, LogoutResource, EditProfileResource
 
 router = Blueprint("router", __name__, url_prefix="/api/v1")
 api = Api(router, errors=router.errorhandler)
@@ -12,6 +12,7 @@ api = Api(router, errors=router.errorhandler)
 api.add_resource(RegisterResource, "/auth/register", endpoint="register")
 api.add_resource(LoginResource, "/auth/login", endpoint="login")
 api.add_resource(LogoutResource, "/auth/logout", endpoint="logout")
+api.add_resource(EditProfileResource, "/auth/edit", endpoint="edit")
 
 @router.errorhandler(ValidationError)
 def handle_marshmallow_error(e):
