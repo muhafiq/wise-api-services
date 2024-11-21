@@ -70,10 +70,16 @@ class LogoutResource(Resource):
         
         # menghapus token dari daftar token yang valid
         # sehingga token tidak bisa digunakan lagi
+        access_token = request.headers.get("Authorization")
+        if not access_token:
+            abort(401)
+        
+
         return {
             "status_code": 200,
             "message": "User logout successfully"
-        }
+     
+          
 
 # membuat endpoint edit profile
 class EditProfileResource(Resource):
@@ -106,3 +112,4 @@ class EditProfileResource(Resource):
 #     "name": "nama",
 #     "address": "alamat"
 # }
+
