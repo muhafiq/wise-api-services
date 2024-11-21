@@ -59,10 +59,6 @@ class LoginResource(Resource):
         }
 
 
-# class LogoutResource(Resource):
-#     def delete(self):
-#         pass 
-
 # membuat endpoint logout
 class LogoutResource(Resource):
     def delete(self):
