@@ -33,19 +33,20 @@ class LoginResource(Resource):
         schema = UserSchema(partial=True)
         schema.context = {"action": "login"}
         validated_data = schema.load(request.json)
+        # print("Validated data:", validated_data)
 
-        db_user = User.query.filter_by(email=validated_data["email"]).first()
+        db_users = User.query.filter_by(email=validated_data["email"]).first()
         
-        if not db_user:
-            raise ResponseError(code=400, description="Invalid credentials")
-
-        if not check_password_hash(db_user.password, validated_data["password"]):
-            raise ResponseError(code=400, description="Invalid credentials")
+        if not db_users:
+            raise ResponseError(code=400, description="Invalid credentials 1")
+        
+        if not check_password_hash(db_users.password, validated_data["password"]):
+            raise ResponseError(code=400, description="Invalid credentials 2")
         
         access_token = create_access_token( # default 15 minutes
             identity={
-                "id": db_user.id,
-                "email": db_user.email
+                "id": db_users.id,
+                "email": db_users.email
             }
         )
 
@@ -58,6 +59,22 @@ class LoginResource(Resource):
         }
 
 
+# class LogoutResource(Resource):
+#     def delete(self):
+#         pass 
+
+# membuat endpoint logout
 class LogoutResource(Resource):
     def delete(self):
-        pass
+        # mengambil token yang dikirim oleh client
+        access_token = request.headers.get("Authorization")
+        # jika token tidak ada
+        if not access_token:
+            abort(401)
+        
+        # menghapus token dari daftar token yang valid
+        # sehingga token tidak bisa digunakan lagi
+        return {
+            "status_code": 200,
+            "message": "User logout successfully"
+        }
