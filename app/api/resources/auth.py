@@ -74,3 +74,35 @@ class LogoutResource(Resource):
             "status_code": 200,
             "message": "User logout successfully"
         }
+
+# membuat endpoint edit profile
+class EditProfileResource(Resource):
+    def put(self):
+        schema = UserSchema(partial=True)
+        schema.context = {"action": "edit_profile"}
+        validated_data = schema.load(request.json)
+
+        validated_data.pop("confirm_password", None)
+        validated_data["password"] = generate_password_hash(validated_data["password"])
+
+        user = User(**validated_data)
+        db.session.add(user)
+        db.session.commit()
+
+        return {
+            "status_code": 201,
+            "message": "User edited.",
+            "data": {
+                "id": user.id
+            }
+        }, 201
+
+# buatkan json untuk test api edit diatas
+# {
+#     "email": "
+#     "no_hp": "081234567890",
+#     "password": "passwordbaru",
+#     "confirm_password": "passwordbaru",
+#     "name": "nama",
+#     "address": "alamat"
+# }

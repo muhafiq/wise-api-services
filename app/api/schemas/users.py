@@ -6,6 +6,7 @@ from app.models.users import User
 class UserSchema(ma.SQLAlchemyAutoSchema):
     id = String(required=True, validate=[validate.Length(min=36)])
     email = String(required=True, validate=[validate.Email()])
+    name = String(required=True, validate=[validate.Length(max=120)])
     no_hp = String(
         required=True, 
         validate=[
