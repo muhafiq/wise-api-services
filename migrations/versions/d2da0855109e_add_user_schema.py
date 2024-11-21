@@ -21,6 +21,7 @@ def upgrade():
     op.create_table('user',
     sa.Column('id', sa.String(length=36), nullable=False),
     sa.Column('email', sa.String(length=120), nullable=False),
+    sa.Column('name', sa.String(length=120), nullable=False),
     sa.Column('no_hp', sa.String(length=16), nullable=False),
     sa.Column('password', sa.Text(), nullable=False),
     sa.Column('refresh_token', sa.Text(), nullable=True),
