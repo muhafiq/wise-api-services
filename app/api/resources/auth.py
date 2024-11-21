@@ -60,4 +60,11 @@ class LoginResource(Resource):
 
 class LogoutResource(Resource):
     def delete(self):
-        pass
+        access_token = request.headers.get("Authorization")
+        if not access_token:
+            abort(401)
+        
+        return {
+            "status_code": 200,
+            "message": "User logout successfully"
+        }
