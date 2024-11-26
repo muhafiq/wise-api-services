@@ -11,6 +11,10 @@ from app.models.token_blacklist import TokenBlacklist
 
 class RegisterResource(Resource):
     def post(self):
+
+        if not request.json:
+            raise ResponseError(code=400, description="Payload cannot be empty!")
+
         schema = UserSchema(partial=True)
         schema.context = {"action": "register"}
         validated_data = schema.load(request.json)
