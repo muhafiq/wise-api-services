@@ -55,3 +55,9 @@ flask run --reload
 ```bash
 flask db upgrade
 ```
+
+7. How to run the test
+
+```bash
+pytest
+```
