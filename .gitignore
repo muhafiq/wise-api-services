@@ -4,3 +4,9 @@ __pycache__
 
 # put the virtual environtment here
 virtualenv
+
+# the model folder
+model
+
+# data testing
+*.jpg
