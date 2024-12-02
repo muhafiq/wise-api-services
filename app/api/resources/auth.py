@@ -4,11 +4,17 @@ from app.api.schemas.users import UserSchema
 from app.models.users import User
 from app.extentions import db
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt
 from app.api.error import ResponseError
+import json
+from app.models.token_blacklist import TokenBlacklist
 
 class RegisterResource(Resource):
     def post(self):
+
+        if not request.json:
+            raise ResponseError(code=400, description="Payload cannot be empty!")
+
         schema = UserSchema(partial=True)
         schema.context = {"action": "register"}
         validated_data = schema.load(request.json)
@@ -33,21 +39,19 @@ class LoginResource(Resource):
         schema = UserSchema(partial=True)
         schema.context = {"action": "login"}
         validated_data = schema.load(request.json)
-        # print("Validated data:", validated_data)
 
-        db_users = User.query.filter_by(email=validated_data["email"]).first()
+        db_user = User.query.filter_by(email=validated_data["email"]).first()
         
-        if not db_users:
-            raise ResponseError(code=400, description="Invalid credentials 1")
+        if not db_user:
+            raise ResponseError(code=400, description="Invalid credentials")
         
-        if not check_password_hash(db_users.password, validated_data["password"]):
-            raise ResponseError(code=400, description="Invalid credentials 2")
+        if not check_password_hash(db_user.password, validated_data["password"]):
+            raise ResponseError(code=400, description="Invalid credentials")
         
-        access_token = create_access_token( # default 15 minutes
-            identity={
-                "id": db_users.id,
-                "email": db_users.email
-            }
+        access_token = create_access_token(
+            identity=json.dumps({
+                "id": db_user.id
+            })
         )
 
         return {
@@ -56,60 +60,19 @@ class LoginResource(Resource):
             "data": {
                 "access_token": access_token
             }
-        }
+        }, 200
 
 
-# membuat endpoint logout
 class LogoutResource(Resource):
+    @jwt_required()
     def delete(self):
-        # mengambil token yang dikirim oleh client
-        access_token = request.headers.get("Authorization")
-        # jika token tidak ada
-        if not access_token:
-            abort(401)
+        jti = get_jwt()["jti"]
         
-        # menghapus token dari daftar token yang valid
-        # sehingga token tidak bisa digunakan lagi
-        access_token = request.headers.get("Authorization")
-        if not access_token:
-            abort(401)
-        
+        blacklisted_token = TokenBlacklist(jti=jti)
+        db.session.add(blacklisted_token)
+        db.session.commit()
 
         return {
             "status_code": 200,
             "message": "User logout successfully"
-     
-          
-
-# membuat endpoint edit profile
-class EditProfileResource(Resource):
-    def put(self):
-        schema = UserSchema(partial=True)
-        schema.context = {"action": "edit_profile"}
-        validated_data = schema.load(request.json)
-
-        validated_data.pop("confirm_password", None)
-        validated_data["password"] = generate_password_hash(validated_data["password"])
-
-        user = User(**validated_data)
-        db.session.add(user)
-        db.session.commit()
-
-        return {
-            "status_code": 201,
-            "message": "User edited.",
-            "data": {
-                "id": user.id
-            }
-        }, 201
-
-# buatkan json untuk test api edit diatas
-# {
-#     "email": "
-#     "no_hp": "081234567890",
-#     "password": "passwordbaru",
-#     "confirm_password": "passwordbaru",
-#     "name": "nama",
-#     "address": "alamat"
-# }
-
+        }, 200

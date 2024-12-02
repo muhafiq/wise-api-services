@@ -15,7 +15,7 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
         ])
     password = String(required=True, validate=[validate.Length(min=8, max=40)])
     confirm_password = String(required=False, validate=[validate.Length(min=8, max=40)])
-    refresh_token = String(required=False)
+    address = String(required=False)
     created_at = DateTime()
     updated_at = DateTime()
 
