@@ -7,10 +7,20 @@ from app.utils.gcs import allowed_file, upload_image
 from app.models.injury_classes import InjuryClass
 from app.api.schemas.injury_classes import InjuryClassSchema
 from app.models.medical_records import MedicalRecord
+from flask_jwt_extended import decode_token
+import json
 
 class PredictResource(Resource):
     def post(self):
         schema = InjuryClassSchema()
+
+        token = request.headers.get('Authorization')
+        user_id = None
+
+        if token and token.startswith("Bearer "):
+            token = token.split(' ')[1]
+            decoded_token = json.loads(decode_token(token)['sub'])
+            user_id = decoded_token['id']
 
         # validate the data image
         if 'image' not in request.files: 
@@ -38,7 +48,8 @@ class PredictResource(Resource):
         medical_record = MedicalRecord(
             diagnosis_id=injury_class.id,
             photo=file_url,
-            treatment=injury_class.treatment
+            treatment=injury_class.treatment,
+            user_id=user_id
         )
         db.session.add(medical_record)
         db.session.commit()
