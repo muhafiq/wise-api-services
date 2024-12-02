@@ -36,6 +36,10 @@ class RegisterResource(Resource):
 
 class LoginResource(Resource):
     def post(self):
+
+        if not request.json:
+            raise ResponseError(code=400, description="Payload cannot be empty!")
+
         schema = UserSchema(partial=True)
         schema.context = {"action": "login"}
         validated_data = schema.load(request.json)

@@ -38,22 +38,23 @@ class UserResource(Resource):
 
         validated_data = schema.load(request.json)
 
-        db_user = User.query.filter_by(id=user_id).first()
+        updatable_fields = ['name', 'email']
+        update_data = {key: value for key, value in validated_data.items() if key in updatable_fields}
 
-        if not db_user:
-           raise ResponseError(code=404, description="User not found")
+        if not update_data:
+            raise ResponseError(code=400, description="No valid fields to update")
 
-        updatable_fields = ['name', 'email']  # user can only update listed fields
-        for field, value in validated_data.items():
-            if field in updatable_fields:
-                setattr(db_user, field, value)
-        
-        db_user.updated_at = datetime.now()
+        update_data["updated_at"] = datetime.now() 
+        updated_rows = User.query.filter_by(id=user_id).update(update_data)
+        if updated_rows == 0:
+            raise ResponseError(code=404, description="User not found")
 
         db.session.commit()
 
+        updated_user = User.query.filter_by(id=user_id).first()
+        
         return {
             "status_code": 200,
             "message": "User profile updated successfully",
-            "data": schema.dump(db_user)
+            "data": schema.dump(updated_user)
         }, 200

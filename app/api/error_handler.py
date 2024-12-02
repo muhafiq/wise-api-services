@@ -8,6 +8,7 @@ def register_error_handler(app):
     def handle_marshmallow_error(e):
         return {
             "status_code": 400,
+            "message": "Validation error!",
             "errors": e.messages
         }, 400
 

@@ -31,3 +31,17 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
         if self.context.get("action") == "register":
             if User.query.filter_by(email=data.get("email")).count():
                 raise ValidationError({"email": ["Email already exist."]})
+    
+    @validates_schema
+    def validate_required_data(self, data, **kwargs):
+        if self.context.get("action") == "register":
+            required_fields = ["name", "email", "no_hp", "password", "confirm_password"]
+            missing_fields = [field for field in required_fields if field not in data]
+            if missing_fields:
+                raise ValidationError({field: ["This field is required."] for field in missing_fields})
+        
+        elif self.context.get("action") == "login":
+            required_fields = ["email", "password"]
+            missing_fields = [field for field in required_fields if field not in data]
+            if missing_fields:
+                raise ValidationError({field: ["This field is required."] for field in missing_fields})
