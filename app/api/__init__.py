@@ -7,6 +7,7 @@ from app.models.token_blacklist import TokenBlacklist
 from .resources.auth import RegisterResource, LoginResource, LogoutResource
 from .resources.user import UserResource
 from .resources.predict import PredictResource
+from .resources.history import AllHistoryResource, SingleHistoryResource
 
 router = Blueprint("router", __name__, url_prefix="/api/v1")
 api = Api(router, errors=router.errorhandler)
@@ -16,7 +17,8 @@ api.add_resource(LoginResource, "/auth/login", endpoint="login")
 api.add_resource(LogoutResource, "/auth/logout", endpoint="logout")
 api.add_resource(UserResource, "/users/me", endpoint="users")
 api.add_resource(PredictResource, "/predict", endpoint="predict")
-
+api.add_resource(AllHistoryResource, "/history", endpoint="history")
+api.add_resource(SingleHistoryResource, "/history/<string:history_id>", endpoint="single_history")
 
 @jwt.token_in_blocklist_loader
 def check_if_token_is_revoked(jwt_header, jwt_payload):

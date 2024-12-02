@@ -1,6 +1,7 @@
 .env
 __pycache__
 .pytest_cache
+*.rest
 
 # put the virtual environtment here
 virtualenv
