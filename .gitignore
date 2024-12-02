@@ -10,3 +10,6 @@ model
 
 # data testing
 *.jpg
+
+# the gcs credentials
+gcs-credentials.json
