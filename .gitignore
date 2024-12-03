@@ -1,6 +1,16 @@
 .env
 __pycache__
 .pytest_cache
+*.rest
 
 # put the virtual environtment here
 virtualenv
+
+# the model folder
+model
+
+# data testing
+*.jpg
+
+# the gcs credentials
+gcs-credentials.json

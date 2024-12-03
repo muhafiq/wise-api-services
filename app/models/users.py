@@ -13,3 +13,6 @@ class User(db.Model):
     password = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, server_default=func.now(), nullable=False)
     updated_at = db.Column(db.DateTime, onupdate=func.now(), nullable=True)
+
+    # Relasi ke MedicalRecord
+    medical_records = db.relationship('MedicalRecord', backref='user', lazy=True)

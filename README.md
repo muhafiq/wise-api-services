@@ -41,7 +41,14 @@ pip install poetry
 poetry install
 ```
 
-5. Run the project
+5. Download the `model.h5`
+```bash
+python script/download_model.py
+```
+
+6. Create a service account in google cloud, and grant roles `cloud storage admin` and `cloud storage object admin`. Then export the key as json file. Then copy the json file to current directory and rename to `gcs-credentials.json` (must)
+
+7. Run the project
 
 ```bash
 flask run
@@ -50,10 +57,15 @@ flask run
 flask run --reload
 ```
 
-6. Doing migrations
+8. Doing migrations
 
 ```bash
 flask db upgrade
+```
+
+9. Run the seeding for `injury_classes`
+```bash
+python script/injury_classes_seeders.py
 ```
 
 7. How to run the test
