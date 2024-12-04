@@ -15,6 +15,7 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
         ])
     password = String(required=True, validate=[validate.Length(min=8, max=40)])
     confirm_password = String(required=False, validate=[validate.Length(min=8, max=40)])
+    token = String(required=False, validate=[validate.Length(min=6)])
     address = String(required=False)
     created_at = DateTime()
     updated_at = DateTime()
@@ -22,7 +23,7 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
 
     @validates_schema
     def validate_confirm_password(self, data, **kwargs):
-        if self.context.get("action") == "register":
+        if self.context.get("action") == "register" or self.context.get("action") == "reset-password":
             if data.get("password") != data.get("confirm_password"):
                 raise ValidationError({"confirm_password": ["Password and confirm password must match."]})
         
