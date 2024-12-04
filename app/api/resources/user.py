@@ -7,6 +7,10 @@ from app.api.schemas.users import UserSchema
 from app.extentions import db
 from app.api.error import ResponseError
 from datetime import datetime
+from app.services.mailer import send_email
+from app.utils.token import generate_token, validate_token
+from sqlalchemy.sql import func
+from werkzeug.security import generate_password_hash
 
 class UserResource(Resource):
     @jwt_required()
@@ -58,3 +62,82 @@ class UserResource(Resource):
             "message": "User profile updated successfully",
             "data": schema.dump(updated_user)
         }, 200
+
+# user mengirimkan email -> email valid? send unique token ke email -> user memasukan token -> reset password
+
+class ForgotPasswordResource(Resource):
+    def post(self):
+
+        if not request.json:
+            raise ResponseError(code=400, description="Payload cannot be empty!")
+
+        email = request.json.get('email')
+        if not email:
+            raise ResponseError(code=400, description="Email is required!")
+        
+        db_user = User.query.filter_by(email=email).first()
+        if not db_user:
+            raise ResponseError(code=404, description="User not found")
+        
+        token = generate_token()
+        db_user.token = token
+        db.session.commit()
+
+        send_email("Reset Password From Wise. Inc", {"email": email, "token": token.split('-')[0]})
+
+        return {
+            "status_code": 200,
+            "message": "Email sent successfully, please check your email!"
+        }, 200
+
+class VerifyTokenResource(Resource):
+    def post(self):
+        if not request.json:
+            raise ResponseError(code=400, description="Payload cannot be empty!")
+
+        email = request.json.get('email')
+        if not email:
+            raise ResponseError(code=400, description="Email is required!")
+        
+        token = request.json.get('token')
+        if not token:
+            raise ResponseError(code=400, description="Token is required!")
+        
+        db_user = User.query.filter_by(email=email).first()
+        if not db_user:
+            raise ResponseError(code=404, description="Email not found!")
+        
+        if not validate_token(db_user.token):
+            raise ResponseError(code=400, description="Token has expired!")
+        
+        return {
+            "status_code": 200,
+            "message": "Token is valid!"
+        }, 200
+        
+
+class ResetPasswordResource(Resource):
+    def post(self):
+        if not request.json:
+            raise ResponseError(code=400, description="Payload cannot be empty!")
+
+        schema = UserSchema(partial=True)
+        schema.context = {'action': 'reset-password'}
+
+        data = schema.load(request.json)
+
+        db_user = User.query.filter_by(email=data['email']).first()
+        if not db_user:
+            raise ResponseError(code=404, description="User not found")
+        
+        if not validate_token(db_user.token):
+            raise ResponseError(code=400, description="Token has expired!")
+        
+        db_user.password = generate_password_hash(data['password'])
+        db_user.token = None
+        db.session.commit()
+
+        return {
+            "status_code": 200,
+            "message": "Password reset successfully"
+        }, 20
