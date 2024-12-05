@@ -5,6 +5,9 @@ from flask_jwt_extended import JWTManager
 import tensorflow as tf
 import os
 from google.cloud import storage
+from dotenv import load_dotenv
+
+load_dotenv()
 
 EXTENSIONS_DIR = os.path.dirname(os.path.abspath(__file__))
 
