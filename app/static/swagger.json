@@ -784,8 +784,13 @@
         "/api/v1/predict": {
           "post": {
             "summary": "Predict Skin Injury",
-            "description": "Uploads an image, processes it using a model, and returns the prediction along with injury details.",
+            "description": "Uploads an image, processes it using a model, and returns the prediction along with injury details. [THIS ENDPOINT CAN BE HIT WITHOUT ACCESS TOKEN]",
             "tags": ["Prediction"],
+            "security": [
+              {
+                "bearerAuth": []
+              }
+            ],
             "requestBody": {
               "required": true,
               "content": {
