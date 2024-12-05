@@ -13,7 +13,7 @@ API_URL = '/static/swagger.json'
 app = Flask(__name__)
 app.config.from_object(config[environ.get("APP_ENV", "default")])
 
-CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*"}})
+CORS(app)
 
 app.register_blueprint(blueprint=router)
 swaggerui_blueprint = get_swaggerui_blueprint(

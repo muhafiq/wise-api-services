@@ -16,7 +16,8 @@
     },
     "servers": [
       {
-        "url": "http://localhost:5000"
+        "description": "GANTI DENGAN URL DEPLOYMENT KALIAN",
+        "url": "https://studious-disco-pxrxgw9qq9qc65x-5000.app.github.dev"
       }
     ],
     "paths": {
