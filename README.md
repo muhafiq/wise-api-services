@@ -68,7 +68,7 @@ flask db upgrade
 python script/injury_classes_seeders.py
 ```
 
-7. How to run the test
+10. How to run the test
 
 ```bash
 pytest

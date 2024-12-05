@@ -27,7 +27,7 @@ class SingleHistoryResource(Resource):
         schema = MedicalRecordSchema()
         user_id = json.loads(get_jwt_identity())['id']
 
-        medical_record = MedicalRecord.query.filter_by(id=history_id).where(user_id=user_id).first()
+        medical_record = MedicalRecord.query.filter_by(id=history_id).filter_by(user_id=user_id).first()
 
         if not medical_record:
             raise ResponseError(code=404, description=f'Medical record with id {history_id} not found')

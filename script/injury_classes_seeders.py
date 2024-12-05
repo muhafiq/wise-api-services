@@ -7,81 +7,152 @@ def seed_injuries():
             'name': 'Abrasions',
             'handling': '''
                 Luka lecet adalah luka ringan yang terjadi ketika lapisan atas kulit tergores atau terkelupas. Biasanya terjadi akibat gesekan atau kecelakaan kecil.
-                - Cuci luka dengan air bersih dan sabun ringan untuk menghilangkan kotoran.
-                - Keringkan luka dengan lembut menggunakan kain bersih.
-                - Oleskan salep antibiotik untuk mencegah infeksi.
-                - Tutup luka dengan perban atau kasa steril untuk melindunginya dari kuman.
-                - Gantilah perban setiap hari dan perhatikan tanda-tanda infeksi seperti kemerahan atau nanah.
+                1. Pastikan tangan sudah bersih sebelum merawat luka
+                2. Bersihkan area luka dengan air yang mengalir atau air saline (hindari menggunakan alkohol atau iodine langsung di luka)
+                3. Jika ada oleskan salep luka/petroleum jelly pada luka
+                4. Tutuplah luka dengan kasa steril atau plester
+                5. Pastikan untuk mengganti kasa steril minimal sehari sekali
+
+                Sumber:
+                - https://www.alodokter.com/pertolongan-pertama-merawat-luka-lecet 
+                - https://www.ncbi.nlm.nih.gov/books/NBK554465/ 
             '''
         },
         {
             'name': 'Bruises',
             'handling': '''
                 Memar terjadi ketika pembuluh darah kecil di bawah kulit pecah akibat benturan atau pukulan, menyebabkan perubahan warna pada kulit.
-                - Segera kompres area yang memar dengan es batu yang dibungkus kain untuk mengurangi pembengkakan dan rasa sakit.
-                - Tinggikan area yang memar untuk mengurangi aliran darah ke area tersebut.
-                - Hindari tekanan langsung pada memar untuk mencegah pendarahan lebih lanjut.
-                - Setelah beberapa hari, gunakan kompres hangat untuk mempercepat proses penyembuhan.
-                - Jika memar disertai rasa sakit yang hebat atau pembengkakan, pertimbangkan untuk memeriksakan diri ke dokter.
+                1. Istirahatkan bagian tubuh yang mengalami luka memar
+                2. Kompres area luka dengan beberapa es batu yang dibungkus kain selama 15-20 menit
+                3. Tinggikan bagian tubuh yang terluka hingga berada di atas jantung 
+                4. Jika area memar membengkak balut dengan elastic bandage
+                5. Apabila luka memar belum hilang, setelah dua hari Anda dapat menggunakan kompres hangat
+                6. Gunakan handuk hangat untuk emngompres area luka selama 10 menit
+
+                Sumber:
+                - https://www.alodokter.com/alami-luka-memar-ini-pertolongannya 
+                - https://www.webmd.com/skin-problems-and-treatments/bruises-article 
+                - https://medlineplus.gov/ency/article/007213.htm
             '''
         },
         {
             'name': 'Burns',
             'handling': '''
                 Luka bakar adalah kerusakan pada kulit yang disebabkan oleh panas, api, uap, atau bahan kimia. Luka bakar dapat dibagi menjadi tingkat ringan (derajat satu), sedang (derajat dua), dan berat (derajat tiga).
-                - Segera rendam luka bakar dengan air dingin selama 10-15 menit untuk mengurangi rasa sakit dan menghentikan kerusakan lebih lanjut.
-                - Hindari menggunakan es langsung pada luka bakar, karena ini dapat merusak jaringan lebih dalam.
-                - Untuk luka bakar ringan, oleskan salep luka bakar atau gel lidah buaya untuk meredakan peradangan.
-                - Jika luka bakar cukup parah (misalnya, luka terbuka atau lepuh besar), segeralah pergi ke rumah sakit untuk perawatan medis lebih lanjut.
-                - Jangan pecahkan lepuh atau tutupi luka dengan bahan yang tidak steril.
+                1. Aliri luka dengan air mengalir selama 15 menit (jangan menggunakan air es)
+                2. Oleskan salep bioplacenton atau petroleum jelly pada permukaan luka (hindari penggunaan pasta gigi pada luka)
+                3. Balut permukaan luka menggunakan kasa steril dengan balutan longgar untuk melindungi luka
+
+                Sumber:
+                - https://www.halodoc.com/artikel/ini-cara-menangani-luka-bakar-berdasarkan-tingkat-keparahannya?srsltid=AfmBOopuuDTCTyrFi0kbGsnGjCDJHB1WWTbyXz6Zd5lPBOnnbAbHQt6B 
+                - https://www.siloamhospitals.com/en/informasi-siloam/artikel/pertolongan-pertama-pada-luka-bakar 
+            '''
+        },
+        {
+            'name': 'First Degree Burns',
+            'handling': '''
+                Luka bakar adalah kerusakan pada kulit yang disebabkan oleh panas, api, uap, atau bahan kimia. Luka bakar dapat dibagi menjadi tingkat ringan (derajat satu), sedang (derajat dua), dan berat (derajat tiga).
+                1. Aliri luka dengan air mengalir selama 15 menit (jangan menggunakan air es)
+                2. Oleskan salep bioplacenton atau petroleum jelly pada permukaan luka (hindari penggunaan pasta gigi pada luka)
+                3. Balut permukaan luka menggunakan kasa steril dengan balutan longgar untuk melindungi luka
+
+                Sumber:
+                - https://www.halodoc.com/artikel/ini-cara-menangani-luka-bakar-berdasarkan-tingkat-keparahannya?srsltid=AfmBOopuuDTCTyrFi0kbGsnGjCDJHB1WWTbyXz6Zd5lPBOnnbAbHQt6B 
+                - https://www.siloamhospitals.com/en/informasi-siloam/artikel/pertolongan-pertama-pada-luka-bakar 
+            '''
+        },
+        {
+            'name': 'Second Degree Burns',
+            'handling': '''
+                Luka bakar adalah kerusakan pada kulit yang disebabkan oleh panas, api, uap, atau bahan kimia. Luka bakar dapat dibagi menjadi tingkat ringan (derajat satu), sedang (derajat dua), dan berat (derajat tiga).
+                1. Lepaskan aksesoris di bagian tubuh yang mengalami luka bakar, tetapi jangan lepas apapun yang sudah menempel pada kulit yang terbakar
+                2. Aliri luka bakar dengan air mengalir selama 15 menit (jangan gunakan air es)
+                3. Jika ada bagian yang melepuh, hindari memecahkan lepuhan karena beresiko terkena infeksi
+                4. Apabila luka bakar cukup luas atau muncul tanda-tanda infeksi (bengkak dan timbul nanah) segera periksakan diri ke rumah sakit.
+
+                Sumber:
+                - https://www.nhs.uk/conditions/burns-and-scalds/#:~:text=Treating%20burns%20and%20scalds&text=cool%20the%20burn%20with%20cool,it%20against%20the%20burnt%20area 
+                - https://www.alodokter.com/wajib-tahu-pertolongan-pertama-pada-luka-bakar-untuk-selamatkan-nyawa
+            '''
+        },
+        {
+            'name': 'Third Degree Burns',
+            'handling': '''
+                Luka bakar adalah kerusakan pada kulit yang disebabkan oleh panas, api, uap, atau bahan kimia. Luka bakar dapat dibagi menjadi tingkat ringan (derajat satu), sedang (derajat dua), dan berat (derajat tiga).
+                1. Lepaskan aksesoris di bagian tubuh yang mengalami luka bakar, tetapi jangan lepas apapun yang sudah menempel pada kulit yang terbakar
+                2. Hindari mengoleskan luka dengan salep ataupun mengaliri luka bakar dengan air
+                3. Balut area luka bakar dengan kasa steril secara longgar
+                4. Bawa segera ke rumah sakit untuk mendapatkan perawatan lebih lanjut
+
+                Sumber:
+                - https://www.halodoc.com/artikel/ini-cara-menangani-luka-bakar-berdasarkan-tingkat-keparahannya?srsltid=AfmBOopuuDTCTyrFi0kbGsnGjCDJHB1WWTbyXz6Zd5lPBOnnbAbHQt6B 
+                - https://www.siloamhospitals.com/en/informasi-siloam/artikel/pertolongan-pertama-pada-luka-bakar 
             '''
         },
         {
             'name': 'Cut',
             'handling': '''
                 Luka sayat terjadi ketika kulit terpotong oleh benda tajam. Luka ini bisa dangkal atau dalam, tergantung pada kedalaman potongan.
-                - Cuci luka dengan air bersih dan sabun untuk menghilangkan kotoran dan debu.
-                - Gunakan kain bersih untuk menghentikan pendarahan dengan memberikan tekanan pada luka.
-                - Setelah pendarahan berhenti, oleskan salep antibiotik untuk mencegah infeksi.
-                - Tutup luka dengan perban steril dan perhatikan tanda-tanda infeksi seperti kemerahan atau nanah.
-                - Jika luka cukup dalam atau tidak berhenti berdarah, pertimbangkan untuk mendapatkan jahitan dari profesional medis.
+                1. Pastikan tangan sudah bersih sebelum merawat luka
+                2. Bersihkan area luka dengan air yang mengalir atau air saline (hindari menggunakan alkohol atau iodine langsung di luka)
+                3. Tekan luka dengan kain bersih atau kasa steril, dan posisikan bagian tubuh yang terluka lebih tinggi daripada dada untuk mengontrol perdarahan dan pembengkakan.
+                4. Jika luka cukup besar, tutup dengan kasa steril dan perban. Sedangkan untuk luka yang kecil, biarkan saja terbuka hingga sembuh dengan sendirinya.
+
+                Sumber:
+                - https://www.alodokter.com/luka-sayatan-ditangani-sendiri-atau-harus-oleh-dokter 
+                - https://www.mayoclinic.org/first-aid/first-aid-cuts/basics/art-20056711 
             '''
         },
         {
             'name': 'Ingrown_nails',
             'handling': '''
                 Kuku tumbuh ke dalam terjadi ketika ujung kuku menembus kulit di sekitar kuku, menyebabkan rasa sakit, peradangan, dan infeksi.
-                - Rendam kaki dalam air hangat untuk mengurangi peradangan dan rasa sakit.
-                - Setelah merendam, keringkan kaki dan gunakan kapas atau kain lembut untuk perlahan-lahan mengangkat ujung kuku yang tumbuh ke dalam (gunakan alat steril jika diperlukan).
-                - Oleskan salep antibiotik pada area yang terinfeksi.
-                - Jika peradangan berlanjut atau infeksi berkembang, pertimbangkan untuk berkonsultasi dengan dokter atau ahli pedikur.
-                - Pastikan untuk memotong kuku secara lurus dan tidak terlalu pendek di masa depan untuk mencegah masalah ini.
+                1. Rendam kaki yang mengalami cantengan dengan air hangat selama 15-20 menit sebanyak 3-4 kali sehari
+                2. Pastikan untuk menjaga kaki selalu kering
+                3. Gunakan alas kaki yang nyaman dan memiliki cukup ruang untuk jari kaki
+                4. Oleskan salep antibiotik seperti gentamicin pada jari yang mengalami cantengan untuk mencegah infeksi
+                5. Perhatikan tanda-tanda infeksi. Jika ada demam, pembengkakan atau keluar nanah dari luka tersebut harap segera ke rumah sakit
+
+                Sumber:
+                - https://www.alodokter.com/inilah-cara-mengobati-kuku-cantenga
+                - https://www.ncbi.nlm.nih.gov/books/NBK546697
             '''
         },
         {
             'name': 'Laceration',
             'handling': '''
                 Luka robek terjadi ketika kulit robek atau sobek akibat benda tajam atau kecelakaan. Luka ini biasanya lebih dalam dibandingkan dengan luka sayat.
-                - Cuci luka dengan air bersih untuk menghilangkan kotoran.
-                - Gunakan kain bersih untuk menghentikan pendarahan dengan memberikan tekanan pada luka.
-                - Jika luka cukup besar atau dalam, segera bawa pasien ke rumah sakit untuk mendapatkan jahitan.
-                - Setelah jahitan, pastikan luka tetap bersih dan kering.
-                - Perhatikan tanda-tanda infeksi dan konsultasikan dengan dokter jika ada gejala seperti kemerahan atau nanah.
+                1. Pastikan tangan sudah bersih sebelum merawat luka
+                2. Kontrol perdarahan dengan beri tekanan langsung pada luka dengan menggunakan kasa steril/kain bersih sambil mengangkat area yang terluka hingga posisinya di atas jantung
+                3. Balut dan tutup luka menggunakan kasa steril
+                4. Bawa ke rumah sakit untuk mendapatkan perawatan lebih lanjut
+
+                Sumber:
+                - https://www.verywellhealth.com/how-to-treat-a-laceration-1298916 
+                - https://hellosehat.com/hidup-sehat/pertolongan-pertama/vulnus-laceratum/ 
             '''
         },
         {
             'name': 'Stab_wound',
             'handling': '''
                 Luka tusuk terjadi ketika benda tajam menembus kulit dan jaringan tubuh lainnya, sering kali lebih dalam dan dapat merusak organ dalam.
-                - Jangan coba untuk mencabut benda tajam dari luka, karena ini bisa memperburuk cedera atau menyebabkan pendarahan lebih lanjut.
-                - Tekan area luka dengan kain bersih untuk mengendalikan pendarahan.
-                - Segera bawa pasien ke rumah sakit untuk mendapatkan perawatan medis lebih lanjut dan menilai tingkat keparahan cedera.
-                - Jika benda tajam masih tertinggal dalam tubuh, segera bawa ke ruang gawat darurat.
+                1. Pastikan tangan sudah bersih sebelum merawat luka
+                2. Kontrol perdarahan dengan beri tekanan langsung pada luka dengan menggunakan kasa steril/kain bersih sambil mengangkat area yang terluka hingga posisinya di atas jantung
+                3. Saat perdarahan sudah berhenti bersihkan luka dengan air mengalir
+                4. Balut dan tutup luka menggunakan kasa steril dan plester
+                5. Pastikan untuk mengganti kasa steril minimal sehari sekali
+                6. Minum obat pereda nyeri jika dibutuhkan
+                7. Perhatikan tanda-tanda infeksi. Jika ada demam, pembengkakan atau keluar nanah dari luka tersebut harap segera ke rumah sakit
+
+                Sumber:
+                - https://www.alodokter.com/bahaya-luka-tusuk-dan-pertolongan-yang-perlu-dilakukan 
+                - https://www.verywellhealth.com/puncture-wounds-8383991
             '''
         }
     ]
 
     with app.app_context():
+        db.session.query(InjuryClass).delete()
         for injury_data in injuries_data:
             injury = InjuryClass.query.filter_by(class_name=injury_data['name']).first()
             if not injury:

@@ -12,7 +12,7 @@ def download_model():
 
     MODEL_URL = os.environ.get("MODEL_URL", "")
 
-    MODEL_DIR = "../model"
+    MODEL_DIR = "model"
     MODEL_PATH = os.path.join(MODEL_DIR, "model.h5")
 
     os.makedirs(MODEL_DIR, exist_ok=True)
@@ -20,3 +20,5 @@ def download_model():
     print(f"Downloading model from {MODEL_URL}...")
     urllib.request.urlretrieve(MODEL_URL, MODEL_PATH)
     print(f"Model saved to {MODEL_PATH}")
+
+download_model()

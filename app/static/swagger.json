@@ -1,0 +1,1219 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Wise API",
+      "description": "Wise API Documentation | Ada beberapa format response error yang tidak sesuai, mohon dimaklumi karena kami membuat dokumentasi ini manual a.k.a /static/swagger.json diatas kami buat secara manual (emot tengkorak). Jika membutuhkan bantuan terkait dokumentasi ini boleh hubungi tim CC yah.",
+      "version": "1.0.0"
+    },
+    "components": {
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      }
+    },
+    "servers": [
+      {
+        "description": "GANTI DENGAN URL DEPLOYMENT KALIAN",
+        "url": "https://studious-disco-pxrxgw9qq9qc65x-5000.app.github.dev"
+      }
+    ],
+    "paths": {
+        "/api/v1/auth/register": {
+          "post": {
+            "summary": "Register User",
+            "description": "Registers a new user and returns the created user's ID.",
+            "tags": ["Authentication"],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "no_hp": {
+                        "type": "string"
+                      },
+                      "password": {
+                        "type": "string",
+                        "format": "password"
+                      },
+                      "confirm_password": {
+                        "type": "string",
+                        "format": "password"
+                      }
+                    },
+                    "required": ["email", "password", "confirm_password", "name", "confirm_password"]
+                  }
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "description": "User successfully created",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer"
+                            }
+                          }
+                        }
+                      },
+                      "required": ["status_code", "message", "data"]
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "Bad request or validation error",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "errors": {
+                          "type": "object",
+                          "properties": {
+                            "email": {
+                              "type": "array"
+                            }
+                          }
+                        }
+                      },
+                      "required": ["status_code", "message"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },      
+        "/api/v1/auth/login": {
+          "post": {
+            "summary": "Login User",
+            "description": "Logs in a user and returns an authentication token.",
+            "tags": ["Authentication"],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "email": {
+                        "type": "string"
+                      },
+                      "password": {
+                        "type": "string",
+                        "format": "password"
+                      }
+                    },
+                    "required": ["email", "password"]
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "Successful login",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "access_token": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      },
+                      "required": ["status_code", "message", "data"]
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "Invalid credentials or bad request",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "error": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": ["status_code", "message"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/api/v1/auth/logout": {
+          "delete": {
+            "summary": "Logout User",
+            "description": "Logs out a user by blacklisting the current JWT token.",
+            "tags": ["Authentication"],
+            "security": [
+              {
+                "bearerAuth": []
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Successfully logged out",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["status_code", "message"]
+                    }
+                  }
+                }
+              },
+              "401": {
+                "description": "Unauthorized: No valid JWT token provided",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["status_code", "message"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/api/v1/users/me": {
+          "get": {
+            "summary": "Get User Profile",
+            "description": "Get the profile of the currently authenticated user.",
+            "tags": ["Users"],
+            "security": [
+              {
+                "bearerAuth": []
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "User profile fetched successfully",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "email": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "no_hp": {
+                              "type": "string"
+                            },
+                            "password": {
+                              "type": "string"
+                            },
+                            "created_at": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "updated_at": {
+                              "type": "string",
+                              "format": "date-time"
+                            }
+                          },
+                          "required": ["id", "email", "name", "no_hp", "password", "created_at", "updated_at"]
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "404": {
+                "description": "User not found",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "error": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": ["status_code", "message"]
+                    }
+                  }
+                }
+              },
+              "401": {
+                "description": "Unauthorized",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "error": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": ["status_code", "message"]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "put": {
+            "summary": "Update User Profile",
+            "description": "Update the profile of the currently authenticated user.",
+            "tags": ["Users"],
+            "security": [
+              {
+                "bearerAuth": []
+              }
+            ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false,
+                    "description": "Fields that can be updated: name, email"
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "User profile updated successfully",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "email": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "no_hp": {
+                              "type": "string"
+                            },
+                            "password": {
+                              "type": "string"
+                            },
+                            "created_at": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "updated_at": {
+                              "type": "string",
+                              "format": "date-time"
+                            }
+                          },
+                          "required": ["id", "name", "email", "no_hp", "password", "created_at", "updated_at"]
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "Bad request or validation error",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "error": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": ["status_code", "message"]
+                    }
+                  }
+                }
+              },
+              "404": {
+                "description": "User not found",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "error": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": ["status_code", "message"]
+                    }
+                  }
+                }
+              },
+              "401": {
+                "description": "Unauthorized",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "error": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": ["status_code", "message"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/api/v1/users/forgot-password": {
+          "post": {
+            "summary": "Forgot Password",
+            "description": "Send an email with a reset password token to the user's email address.",
+            "tags": ["Users"],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "email": {
+                        "type": "string",
+                        "format": "email"
+                      }
+                    },
+                    "required": ["email"],
+                    "description": "Email address to receive the reset password token."
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "Reset password email sent successfully.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["status_code", "message"]
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "Bad request or validation error (e.g., email is missing).",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "error": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": ["status_code", "message", "error"]
+                    }
+                  }
+                }
+              },
+              "404": {
+                "description": "User not found.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "error": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": ["status_code", "message", "error"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/api/v1/users/verify-token": {
+          "post": {
+            "summary": "Verify Reset Password Token",
+            "description": "Verify if the reset password token is valid for a given email address.",
+            "tags": ["Users"],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "email": {
+                        "type": "string",
+                        "format": "email"
+                      },
+                      "token": {
+                        "type": "string"
+                      }
+                    },
+                    "required": ["email", "token"],
+                    "description": "Email address and token to verify."
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "Token is valid.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["status_code", "message"]
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "Bad request, validation error, or token has expired.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "error": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": ["status_code", "message", "error"]
+                    }
+                  }
+                }
+              },
+              "404": {
+                "description": "Email not found.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "error": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": ["status_code", "message", "error"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/api/v1/users/reset-password": {
+          "post": {
+            "summary": "Reset Password",
+            "description": "Allows a user to reset their password using a valid token.",
+            "tags": ["Users"],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "email": {
+                        "type": "string",
+                        "format": "email",
+                        "description": "The email of the user resetting the password."
+                      },
+                      "token": {
+                        "type": "string",
+                        "description": "The reset password token provided to the user."
+                      },
+                      "password": {
+                        "type": "string",
+                        "format": "password",
+                        "description": "The new password for the user."
+                      },
+                       "confirm_password": {
+                        "type": "string",
+                        "format": "password",
+                        "description": "The verification password for the user."
+                      }
+                    },
+                    "required": ["email", "token", "password", "confirm_password"],
+                    "description": "Payload containing the email, token, and new password."
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "Password reset successfully.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["status_code", "message"]
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "Bad request or validation error (e.g., expired token).",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "error": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": ["status_code", "message", "error"]
+                    }
+                  }
+                }
+              },
+              "404": {
+                "description": "User not found.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "error": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": ["status_code", "message", "error"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/api/v1/predict": {
+          "post": {
+            "summary": "Predict Skin Injury",
+            "description": "Uploads an image, processes it using a model, and returns the prediction along with injury details. [THIS ENDPOINT CAN BE HIT WITHOUT ACCESS TOKEN]",
+            "tags": ["Prediction"],
+            "security": [
+              {
+                "bearerAuth": []
+              }
+            ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "multipart/form-data": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "image": {
+                        "type": "string",
+                        "format": "binary",
+                        "description": "The image file to be uploaded for prediction."
+                      }
+                    },
+                    "required": ["image"]
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "Prediction was successful.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "prediction": {
+                              "type": "string",
+                              "description": "The predicted class of the skin injury."
+                            },
+                            "details": {
+                              "type": "object",
+                              "properties": {
+                                "class_name": {
+                                  "type": "string",
+                                  "description": "The name of the injury class."
+                                },
+                                "treatment": {
+                                  "type": "string",
+                                  "description": "Suggested treatment for the injury."
+                                }
+                              },
+                              "required": ["class_name", "treatment"]
+                            }
+                          },
+                          "required": ["prediction", "details"]
+                        }
+                      },
+                      "required": ["status_code", "message", "data"]
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "Bad request (e.g., no image provided or invalid file format).",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["status_code", "message"]
+                    }
+                  }
+                }
+              },
+              "security": [
+                {
+                  "BearerAuth": []
+                }
+              ]
+            }
+          }
+        },        
+        "/api/v1/history": {
+          "get": {
+            "summary": "Get All Medical Records",
+            "description": "Retrieve all medical records associated with the authenticated user.",
+            "tags":["Medical Records"],
+            "security": [
+              {
+                "bearerAuth": []
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Medical records retrieved successfully.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer",
+                                "description": "The ID of the medical record."
+                              },
+                              "diagnosis_id": {
+                                "type": "integer",
+                                "description": "The ID of the associated diagnosis."
+                              },
+                              "photo": {
+                                "type": "string",
+                                "format": "url",
+                                "description": "The URL of the uploaded photo."
+                              },
+                              "treatment": {
+                                "type": "string",
+                                "description": "The suggested treatment for the diagnosis."
+                              },
+                              "created_at": {
+                                "type": "string",
+                                "format": "date-time",
+                                "description": "The timestamp when the record was created."
+                              }
+                            },
+                            "required": ["id", "diagnosis_id", "photo", "treatment", "created_at"]
+                          }
+                        }
+                      },
+                      "required": ["status_code", "message", "data"]
+                    }
+                  }
+                }
+              },
+              "401": {
+                "description": "Unauthorized request, authentication is required.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["status_code", "message"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/api/v1/history/{history_id}": {
+          "get": {
+            "summary": "Get Single Medical Record",
+            "description": "Retrieve a single medical record associated with the authenticated user by its ID.",
+            "tags":["Medical Records"],
+            "security": [
+              {
+                "bearerAuth": []
+              }
+            ],
+            "parameters": [
+              {
+                "name": "history_id",
+                "in": "path",
+                "required": true,
+                "description": "The ID of the medical record.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Medical record retrieved successfully.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "description": "The ID of the medical record."
+                            },
+                            "diagnosis_id": {
+                              "type": "integer",
+                              "description": "The ID of the associated diagnosis."
+                            },
+                            "photo": {
+                              "type": "string",
+                              "format": "url",
+                              "description": "The URL of the uploaded photo."
+                            },
+                            "treatment": {
+                              "type": "string",
+                              "description": "The suggested treatment for the diagnosis."
+                            },
+                            "created_at": {
+                              "type": "string",
+                              "format": "date-time",
+                              "description": "The timestamp when the record was created."
+                            }
+                          },
+                          "required": ["id", "diagnosis_id", "photo", "treatment", "created_at"]
+                        }
+                      },
+                      "required": ["status_code", "message", "data"]
+                    }
+                  }
+                }
+              },
+              "404": {
+                "description": "Medical record not found.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["status_code", "message"]
+                    }
+                  }
+                }
+              },
+              "401": {
+                "description": "Unauthorized request, authentication is required.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["status_code", "message"]
+                    }
+                  }
+                }
+              }
+            }            
+          }
+        },
+        "/api/v1/nearby-hospitals": {
+          "get": {
+            "summary": "Get Nearest Hospitals",
+            "description": "Retrieve a list of the nearest hospitals based on the provided latitude and longitude.",
+            "tags": ["Nearby Hospital"],
+            "security": [
+              {
+                "bearerAuth": []
+              }
+            ],
+            "parameters": [
+              {
+                "name": "lat",
+                "in": "query",
+                "required": true,
+                "description": "The latitude of the user's current location.",
+                "schema": {
+                  "type": "string",
+                  "example": "-6.1751"
+                }
+              },
+              {
+                "name": "lon",
+                "in": "query",
+                "required": true,
+                "description": "The longitude of the user's current location.",
+                "schema": {
+                  "type": "string",
+                  "example": "106.8650"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Successfully retrieved nearest hospitals.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "description": "The name of the hospital."
+                              },
+                              "distance": {
+                                "type": "string",
+                                "description": "The distance from the user's location to the hospital in kilometer."
+                              },
+                              "contact": {
+                                "type": "object",
+                                "description": "The contact number of the hospital."
+                              },
+                              "latitude": {
+                                "type": "number",
+                                "description": "The latitude of the hospital."
+                              },
+                              "longitude": {
+                                "type": "number",
+                                "description": "The longitude of the hospital."
+                              }
+                            },
+                            "required": ["name", "address", "distance"]
+                          }
+                        }
+                      },
+                      "required": ["status_code", "message", "data"]
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "Missing or invalid latitude/longitude parameters.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["status_code", "message"]
+                    }
+                  }
+                }
+              },
+              "401": {
+                "description": "Unauthorized request, authentication is required.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["status_code", "message"]
+                    }
+                  }
+                }
+              },
+              "500": {
+                "description": "Internal server error while processing the request.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["status_code", "message"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+    }
+}

@@ -2,6 +2,7 @@
 __pycache__
 .pytest_cache
 *.rest
+.idx
 
 # put the virtual environtment here
 virtualenv
