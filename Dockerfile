@@ -1,18 +1,21 @@
 FROM python:3.12-slim
 
-WORKDIR /app
+WORKDIR /api
 
-COPY pyproject.toml poetry.lock /app/
+COPY pyproject.toml poetry.lock /api/
 
-RUN pip install --no-cache-dir poetry
+RUN pip install --no-cache-dir poetry python-dotenv
 
-RUN poetry install --no-dev --no-interaction --no-ansi --no-root
+RUN poetry install --no-dev --no-interaction --no-ansi
 
-COPY . /app/
+COPY . /api/
+
+RUN poetry run flask db upgrade
+
+RUN poetry run python setup.py
 
 ENV FLASK_ENV=production
 
-EXPOSE 5000
+EXPOSE 8080
 
-CMD ["poetry", "run", "gunicorn", "-b", "0.0.0.0:5000", "app.app:app"]
-
+CMD ["poetry", "run", "gunicorn", "-b", "0.0.0.0:8080", "app.app:app"]
