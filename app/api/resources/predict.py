@@ -44,15 +44,16 @@ class PredictResource(Resource):
         file_url = upload_image(file)
         injury_class = InjuryClass.query.filter_by(class_name=prediction_class).first()
 
-        # add new medical record
-        medical_record = MedicalRecord(
-            diagnosis_id=injury_class.id,
-            photo=file_url,
-            treatment=injury_class.treatment,
-            user_id=user_id
-        )
-        db.session.add(medical_record)
-        db.session.commit()
+        # add new medical record if user id exist
+        if user_id:
+            medical_record = MedicalRecord(
+                diagnosis_id=injury_class.id,
+                photo=file_url,
+                treatment=injury_class.treatment,
+                user_id=user_id
+            )
+            db.session.add(medical_record)
+            db.session.commit()
 
         return {
             'status_code': 200,
@@ -60,5 +61,6 @@ class PredictResource(Resource):
             'data': {
                 'prediction': f'You have a {prediction_class} in your skin',
                 'details': schema.dump(injury_class),
+                'photo': file_url
             }
         }, 200
