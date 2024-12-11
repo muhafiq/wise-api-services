@@ -16,8 +16,8 @@
     },
     "servers": [
       {
-        "description": "GANTI DENGAN URL DEPLOYMENT KALIAN",
-        "url": "https://studious-disco-pxrxgw9qq9qc65x-5000.app.github.dev"
+        "description": "URL DEPLOYMENT",
+        "url": "https://wise-api-779039178409.asia-southeast2.run.app"
       }
     ],
     "paths": {
@@ -962,6 +962,132 @@
                 }
               }
             }
+          },
+          "post": {
+            "summary": "Add Medical Record",
+            "description": "Menambahkan rekam medis baru ke database.",
+            "tags":["Medical Records"],
+            "security": [
+              {
+                "bearerAuth": []
+              }
+            ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "diagnosis_id": {
+                        "type": "integer",
+                        "example": 123,
+                        "description": "ID pengguna yang memiliki rekam medis ini."
+                      },
+                      "photo": {
+                        "type": "string",
+                        "example": "https://storage.googleapis.com/my-bucket/app/filename.jpg",
+                        "description": "URL foto luka medis."
+                      },
+                      "treatment": {
+                        "type": "string",
+                        "example": "Luka bakar derajat kedua di lengan kanan.",
+                        "description": "Deskripsi singkat tentang kondisi medis."
+                      }
+                    },
+                    "required": ["user_id", "photo", "description"]
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "Rekam medis berhasil ditambahkan.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer",
+                          "example": 200
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "Add medical record successfully"
+                        },
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "user_id": {
+                              "type": "integer",
+                              "example": 123
+                            },
+                            "photo": {
+                              "type": "string",
+                              "example": "https://storage.googleapis.com/my-bucket/app/filename.jpg"
+                            },
+                            "description": {
+                              "type": "string",
+                              "example": "Luka bakar derajat kedua di lengan kanan."
+                            },
+                            "photo_date": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-12-11T10:30:00Z"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "Payload tidak valid atau kosong.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "example": 400
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Payload cannot be empty!"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "401": {
+                "description": "Akses tidak diizinkan, token JWT tidak valid atau tidak ada.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "example": 401
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Missing Authorization Header"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "/api/v1/history/{history_id}": {
@@ -1072,6 +1198,93 @@
                 }
               }
             }            
+          }
+        },
+        "/api/v1/history/cancel": {
+            "delete": {
+            "summary": "Cancel Add History Record",
+            "description": "Menghapus gambar dari Google Cloud Storage berdasarkan URL yang diberikan.",
+            "tags": ["Medical Records"],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "photo": {
+                        "type": "string",
+                        "example": "https://storage.googleapis.com/my-bucket/app/filename.jpg",
+                        "description": "URL publik gambar yang ingin dihapus."
+                      }
+                    },
+                    "required": ["photo"]
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "File berhasil dihapus.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer",
+                          "example": 200
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "File app/filename.jpg berhasil dihapus dari GCS."
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "Payload tidak valid atau URL tidak diberikan.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "example": 400
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "No photo url provided!"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "500": {
+                "description": "Terjadi kesalahan di server.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "example": 500
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Terjadi error saat menghapus file: ..."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "/api/v1/nearby-hospitals": {

@@ -10,8 +10,11 @@ def generate_token():
     return f"{token}-{expiration_time}"
 
 def validate_token(token):
-    token_value, expiration_timestamp = token.split('-')
+    try:
+        token_value, expiration_timestamp = token.split('-')
 
-    if int(time.time()) > int(expiration_timestamp):
-        return False  # Token sudah kedaluwarsa
-    return True  # Token masih valid
+        if int(time.time()) > int(expiration_timestamp):
+            return False  # Token sudah kedaluwarsa
+        return True  # Token masih valid
+    except AttributeError as e:
+        return "You don't have a valid token, please request again!"

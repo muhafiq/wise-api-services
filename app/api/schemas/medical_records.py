@@ -7,5 +7,11 @@ class MedicalRecordSchema(ma.SQLAlchemyAutoSchema):
     diagnosis_id = fields.String() 
     treatment = fields.String() 
     photo = fields.String() 
+    user_id = fields.String()
     created_at = fields.DateTime() 
-    updated_at = fields.DateTime() 
+    updated_at = fields.DateTime()
+
+class CreateMedicalRecordSchema(ma.SQLAlchemyAutoSchema):
+    diagnosis_id = fields.String(required=True) 
+    treatment = fields.String(required=True) 
+    photo = fields.String(required=True) 

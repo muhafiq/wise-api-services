@@ -33,3 +33,28 @@ def upload_image(file):
     file_url = blob.public_url
 
     return file_url
+
+def delete_image_by_url(public_url):
+    """
+    Menghapus file dari GCS berdasarkan public URL.
+
+    Parameters:
+    - public_url (str): URL publik dari file di GCS.
+
+    Returns:
+    - str: Pesan konfirmasi atau error.
+    """
+    try:
+        # Ekstrak blob_name dari public URL
+        base_url = "https://storage.googleapis.com/"
+        if not public_url.startswith(base_url):
+            return "Invalid URL", False
+
+        blob_name = public_url.replace(base_url, "").split("/", 1)[1]
+
+        blob = bucket.blob(blob_name)
+        blob.delete()
+
+        return f"File {blob_name} deleted successfully", True
+    except Exception as e:
+        return f"Error while trying to delete file: {e}", False

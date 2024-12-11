@@ -7,7 +7,7 @@ from app.models.token_blacklist import TokenBlacklist
 from .resources.auth import RegisterResource, LoginResource, LogoutResource
 from .resources.user import UserResource, ForgotPasswordResource, ResetPasswordResource, VerifyTokenResource
 from .resources.predict import PredictResource
-from .resources.history import AllHistoryResource, SingleHistoryResource
+from .resources.history import AllHistoryResource, SingleHistoryResource, CancelAddHistoryRecord
 from .resources.hospital import HospitalResource
 
 router = Blueprint("router", __name__, url_prefix="/api/v1")
@@ -23,6 +23,7 @@ api.add_resource(VerifyTokenResource, "/users/verify-token", endpoint="verify_to
 api.add_resource(PredictResource, "/predict", endpoint="predict")
 api.add_resource(AllHistoryResource, "/history", endpoint="history")
 api.add_resource(SingleHistoryResource, "/history/<string:history_id>", endpoint="single_history")
+api.add_resource(CancelAddHistoryRecord, "/history/cancel", endpoint="cancel_history")
 api.add_resource(HospitalResource, "/nearby-hospitals", endpoint="hospitals")
 
 @jwt.token_in_blocklist_loader
