@@ -107,8 +107,13 @@ class VerifyTokenResource(Resource):
         if not db_user:
             raise ResponseError(code=404, description="Email not found!")
         
-        if not validate_token(db_user.token):
+        is_token_valid = validate_token(db_user.token)
+
+        if not is_token_valid:
             raise ResponseError(code=400, description="Token has expired!")
+
+        if type(is_token_valid) == str:
+            raise ResponseError(code=400, description=is_token_valid)
         
         return {
             "status_code": 200,
@@ -130,8 +135,13 @@ class ResetPasswordResource(Resource):
         if not db_user:
             raise ResponseError(code=404, description="User not found")
         
-        if not validate_token(db_user.token):
+        is_token_valid = validate_token(db_user.token)
+
+        if not is_token_valid:
             raise ResponseError(code=400, description="Token has expired!")
+
+        if type(is_token_valid) == str:
+            raise ResponseError(code=400, description=is_token_valid)
         
         db_user.password = generate_password_hash(data['password'])
         db_user.token = None
@@ -140,4 +150,4 @@ class ResetPasswordResource(Resource):
         return {
             "status_code": 200,
             "message": "Password reset successfully"
-        }, 20
+        }, 200
